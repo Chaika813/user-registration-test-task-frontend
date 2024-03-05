@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { LoginPage } from './components/LoginPage';
 import { RegisterPage } from './components/RegisterPage';
@@ -7,15 +7,17 @@ import { CssBaseline } from '@mui/material';
 import { isAuthenticated } from './utils/auth';
 
 function App() {
+    const [authToken, setAuthToken] = useState<null | string>(null);
+
     return (
         <Router>
             <CssBaseline />
             <Routes>
-                <Route path="/" element={<LoginPage />} />
+                <Route path="/" element={<LoginPage setAuthToken={setAuthToken} authToken={authToken}/>} />
                 <Route path="/register" element={<RegisterPage />} />
                 <Route
                     path="/home"
-                    element={isAuthenticated() ? <HomePage /> : <Navigate replace to="/" />}
+                    element={isAuthenticated() ? <HomePage  setAuthToken={setAuthToken} /> : <Navigate replace to="/" />}
                 />
             </Routes>
         </Router>

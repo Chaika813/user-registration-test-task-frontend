@@ -2,10 +2,16 @@ import React from 'react';
 import { Button, Container, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
-export const HomePage = () => {
+export interface Props {
+    setAuthToken: (token: null | string) => void
+}
+
+export const HomePage = (props: Props) => {
+    const {setAuthToken} = props
     const navigate = useNavigate();
 
     const handleLogout = () => {
+        setAuthToken(null)
         localStorage.removeItem('token');
         navigate('/');
     };
