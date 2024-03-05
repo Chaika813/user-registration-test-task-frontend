@@ -25,7 +25,7 @@ export const RegisterPage = () => {
         e.preventDefault();
         setLoading(true);
         try {
-            await axios.post('http://localhost:4000/api/users/register', formData);
+            await axios.post('http://backend:4000/api/users/register', formData);
             setLoading(false);
             navigate('/');
         } catch (error: any) {
