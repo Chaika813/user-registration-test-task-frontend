@@ -1,14 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, TextField, Container, Typography, CircularProgress, Alert } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-export const LoginPage = () => {
+export interface Props {
+    authToken: null | string;
+    setAuthToken: (token: null | string) => void
+}
+
+export const LoginPage = (props: Props) => {
+    const {authToken, setAuthToken} = props
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (authToken) { 
+          navigate('/home');
+        }
+      }, [authToken, navigate]);
+      
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -17,7 +30,7 @@ export const LoginPage = () => {
             const { data } = await axios.post('http://localhost:4000/api/users/login', { email, password });
             localStorage.setItem('token', data.token);
             setLoading(false);
-            navigate('/home');
+            setAuthToken(data.token)
         } catch (error: any) {
             setLoading(false);
             setError('Failed to login. Please check your credentials.');
