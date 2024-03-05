@@ -10,7 +10,7 @@ function App() {
     const [authToken, setAuthToken] = useState<null | string>(null);
 
     return (
-        <Router>c
+        <Router>
             <CssBaseline />
             <Routes>
                 <Route path="/" element={<LoginPage setAuthToken={setAuthToken} authToken={authToken}/>} />
